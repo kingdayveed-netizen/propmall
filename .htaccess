@@ -1,0 +1,29 @@
+ServerSignature Off
+
+# Disable directory browsing
+Options -Indexes
+
+RewriteEngine On
+
+# Deny access to htaccess
+<Files .htaccess>
+RewriteRule '' / [R=301,L]
+Order allow,deny
+Deny from all
+</Files>
+
+# Deny access to filenames starting with dot(.)
+<FilesMatch "^\.">
+RewriteRule '' / [R=301,L]
+Order allow,deny
+Deny from all
+</FilesMatch>
+
+# Deny access to .git
+RewriteRule ^\.git - [R=403,L]
+
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d [OR]
+RewriteCond %{REQUEST_FILENAME} -l
+RewriteRule ^ - [L]
+
